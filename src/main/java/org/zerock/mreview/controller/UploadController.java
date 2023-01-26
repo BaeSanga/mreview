@@ -30,16 +30,21 @@ import java.util.UUID;
 @Log4j2
 public class UploadController {
 
-    @Value("${org.zerock.upload.path}")
+    @Value("${org.zerock.upload.path}")             // application.properties의 변수
     private String uploadPath;
 
     @PostMapping("/uploadAjax")
     public ResponseEntity<List<UploadResultDTO>> uploadFile(MultipartFile[] uploadFiles){
+    // MultipartFile은 단건만 배열로 설정하면 다수의 파일을 받을 수 있음
+    // 배열을 활용하면 동시에 여러개의 파일 정보를 처리할 수 있으므로 화면에서 여러개의 파일을 동시에 업로드 할 수 있음
 
         List<UploadResultDTO> resultDTOList = new ArrayList<>();
 
         for (MultipartFile uploadFile: uploadFiles) {
+            //브라우저에 따라 업로드하는 파일의 이름은 전체경로일 수도 있고(Internet Explorer)
+            //단순히 파일의 이름만을 의미할 수도 있습니다.(chrome browser)
 
+            // 이미지 파일만 업로드 가능
             if(uploadFile.getContentType().startsWith("image") == false) {
                 log.warn("this file is not image type");
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -47,9 +52,11 @@ public class UploadController {
 
             //실제 파일 이름 IE나 Edge는 전체 경로가 들어오므로
             String originalName = uploadFile.getOriginalFilename();
+
             String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
 
             log.info("fileName: " + fileName);
+
             //날짜 폴더 생성
             String folderPath = makeFolder();
 
@@ -58,19 +65,18 @@ public class UploadController {
 
             //저장할 파일 이름 중간에 "_"를 이용해서 구분
             String saveName = uploadPath + File.separator + folderPath + File.separator + uuid +"_" + fileName;
+
             Path savePath = Paths.get(saveName);
 
             try {
                 //원본 파일 저장
                 uploadFile.transferTo(savePath);
 
-                // 썸네일 생성
+                // 썸네일 생성(썸네일 파일 이름은 중간에 s_로 시작하도록)
                 String thumbnailSaveName = uploadPath + File.separator + folderPath + File.separator + "s_" + uuid + "_" + fileName;
 
-                //썸네일 파일 이름은 중간에 s_로 시작하도록
                 File thumbnailFile = new File(thumbnailSaveName);
 
-                //썸네일 생성
                 Thumbnailator.createThumbnail(savePath.toFile(), thumbnailFile,100,100);
 
                 resultDTOList.add(new UploadResultDTO(fileName,uuid,folderPath));
@@ -89,7 +95,6 @@ public class UploadController {
 
         String folderPath =  str.replace("/", File.separator);
 
-        // make folder --------
         File uploadPathFolder = new File(uploadPath, folderPath);
 
         if (uploadPathFolder.exists() == false) {
@@ -98,6 +103,7 @@ public class UploadController {
         return folderPath;
     }
 
+    // 업로드 이미지 출력
     @GetMapping("/display")
     public ResponseEntity<byte[]> getFile(String fileName) {
 
@@ -105,17 +111,14 @@ public class UploadController {
 
         try {
             String srcFileName =  URLDecoder.decode(fileName,"UTF-8");
-
             log.info("fileName: " + srcFileName);
-
             File file = new File(uploadPath +File.separator+ srcFileName);
-
             log.info("file: " + file);
-
             HttpHeaders header = new HttpHeaders();
 
             //MIME타입 처리
             header.add("Content-Type", Files.probeContentType(file.toPath()));
+
             //파일 데이터 처리
             result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
         } catch (Exception e) {

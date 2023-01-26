@@ -13,13 +13,13 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @EntityListeners(value = {AuditingEntityListener.class})
 @Getter
-abstract class BaseEntity {
+abstract class BaseEntity {     // abstract 추상
 
-    @CreatedDate
+    @CreatedDate        // DB에 자동으로 넣어줌     // JPA에서 엔티티의 생성 시간을 처리
     @Column(name = "regdate", updatable = false)
     private LocalDateTime regDate;
 
-    @LastModifiedDate
+    @LastModifiedDate   // DB에 자동으로 넣어줌     // 최종 수정 시간을 자동으로 처리
     @Column(name = "moddate")
     private LocalDateTime modDate;
 }

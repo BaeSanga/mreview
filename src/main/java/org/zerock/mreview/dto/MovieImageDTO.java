@@ -20,6 +20,7 @@ public class MovieImageDTO {
 
     private String path;
 
+    //추후에 전체 경로가 필요한 경우를 대비하여 생성
     public String getImageURL(){
         try {
             return URLEncoder.encode(path+"/"+uuid+"_"+imgName,"UTF-8");

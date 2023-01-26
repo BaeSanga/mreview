@@ -22,11 +22,13 @@
 <script>
 
     $('.uploadBtn').click(function( ) {
-
+        // Aiax로 파일 업로드를 하기 위해서는 가상의 Form 객체를 만들어 사용함 -> Form Data라는 객체로 전송하려는 내용을 추가
         var formData = new FormData();
 
+        // input 태그의 type이 file인 것을 찾아서 inputFile이라는 변수로 지정
         var inputFile = $("input[type='file']");
 
+        // files : 선택한 모든 파일을 나열하는 FileList 객체
         var files = inputFile[0].files;
 
         for (var i = 0; i < files.length; i++) {
@@ -36,6 +38,7 @@
 
         //실제 업로드 부분
         //upload ajax
+        //파일업로드를 위해 contentType 속성을 반드시 false로 지정한다 -> multipart/form-data 타입을 사용하기위해
         $.ajax({
             url: '/uploadAjax',
             processData: false,

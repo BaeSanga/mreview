@@ -17,9 +17,14 @@ public class ReviewRepositoryTests {
 
     @Test
     public void insertMovieReviews(){
+
+        // 200개의 리뷰를 등록
         IntStream.rangeClosed(1,200).forEach(i ->{
+
+            // 영화 번호
             Long mno = (long)(Math.random()*100) + 1;
 
+            // 회원 번호
             Long mid = ((long)(Math.random())*100) + 1;
             Member member = Member.builder().mid(mid).build();
 
@@ -40,8 +45,7 @@ public class ReviewRepositoryTests {
         List<Review> result = reviewRepository.findByMovie(movie);
 
         result.forEach(movieReview -> {
-            System.out.println(movieReview.getReviewNum());
-
+            System.out.println(movieReview.getReviewnum());
             System.out.println("\t"+movieReview.getGrade());
             System.out.println("\t"+movieReview.getText());
             System.out.println("\t"+movieReview.getMember().getEmail());
