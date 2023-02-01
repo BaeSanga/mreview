@@ -63,9 +63,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     // 리뷰 삭제
    @Override
-    public void remove(Long reviewnum) {
+    public void remove(Long reviewNum) {
 
-        reviewRepository.deleteById(reviewnum);
+        reviewRepository.deleteById(reviewNum);
 
     }
 }

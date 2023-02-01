@@ -41,6 +41,7 @@
                 <td><b>[[${dto.reviewCnt}]]</b></td>
                 <td><b>[[${dto.avg}]]</b></td>
                 <td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
+                <td><button type="button" class="delYnBtn">삭제</button></td>
             </tr>
 
             </tbody>
@@ -64,6 +65,28 @@
         </ul>
 
         <script th:inline="javascript">
+            $(".delYnBtn").on("click", function(){
+                var del = {mno:mno};
+
+            // delete : function (){
+            //     let mno = $('#mno').val();
+
+                console.log(del);
+
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/movie/delete/' + mno,
+                    dataType: 'json',       // 서버에서 보내줄 데이터의 타입
+                    contentType: 'application/json; charset=utf-8'      // 데이터 타입
+
+                }).done(function(){         // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
+                    alert('게시글이 삭제되었습니다.');
+                    window.location.href = '/';         // 새로운 페이지로 이동된다.
+
+                }).fail(function(error){       // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
+                    alert(JSON.stringify(error));
+                })
+            });
 
         </script>
     </th:block>

@@ -1,11 +1,14 @@
 package org.zerock.mreview.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.zerock.mreview.dto.MovieDTO;
 import org.zerock.mreview.dto.MovieImageDTO;
 import org.zerock.mreview.dto.PageRequestDTO;
 import org.zerock.mreview.dto.PageResultDTO;
 import org.zerock.mreview.entity.Movie;
 import org.zerock.mreview.entity.MovieImage;
+import org.zerock.mreview.repository.MovieRepository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,10 +21,17 @@ public interface MovieService {
     Long register(MovieDTO movieDTO);
 
     // 목록 처리
-    PageResultDTO<MovieDTO, Object[]> getList(PageRequestDTO requestDTO); //목록 처리
+    PageResultDTO<MovieDTO, Object[]> getList(PageRequestDTO requestDTO);
 
     // 조회 처리
     MovieDTO getMovie(Long mno);
+
+    // 삭제 처리
+//    default void delete(Long mno){
+//        Movie movie = MovieRepository.findById(mno).orElseThrow(()->
+//                new IllegalArgumentException("해당 게시글 없음. mno=" + mno));
+//        MovieRepository.delete(movie);
+//    }
 
     default MovieDTO entitiesToDTO(Movie movie, List<MovieImage> movieImages, Double avg, Long reviewCnt){
         MovieDTO movieDTO = MovieDTO.builder()
@@ -78,5 +88,4 @@ public interface MovieService {
 
         return entityMap;
     }
-
 }
