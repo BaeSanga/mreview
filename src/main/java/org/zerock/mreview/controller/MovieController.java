@@ -2,15 +2,12 @@ package org.zerock.mreview.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.mreview.dto.MovieDTO;
 import org.zerock.mreview.dto.PageRequestDTO;
-import org.zerock.mreview.repository.MovieRepository;
 import org.zerock.mreview.service.MovieService;
 
 @Controller
@@ -49,11 +46,17 @@ public class MovieController {
         MovieDTO movieDTO = movieService.getMovie(mno);
         model.addAttribute("dto", movieDTO);
     }
-    // 삭제 구현중
-    @DeleteMapping("/movie/delete/{mno}")
-    public void delete(@PathVariable long mno){
-//        MovieRepository.delete(mno);
-//        return mno;
-    }
 
+    // 삭제
+    @PostMapping("/delete/{mno}")
+    public String delete(@PathVariable long mno, RedirectAttributes redirectAttributes){
+        
+        // POST 방식으로 mno 값을 전달하고 삭제 후,
+        movieService.deletePost(mno);
+
+        redirectAttributes.addFlashAttribute("msg", mno);
+        
+        // 다시 리스트 페이지로 이동
+        return "redirect:/movie/list";
+    }
 }

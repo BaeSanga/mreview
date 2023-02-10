@@ -24,7 +24,7 @@ import java.util.function.Function;
 @Service
 @Log4j2
 @RequiredArgsConstructor
-public class MovieServiceImpl implements MovieService{
+public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository; //final
 
@@ -54,20 +54,16 @@ public class MovieServiceImpl implements MovieService{
 
         Page<Object[]> result = movieRepository.getListPage(pageable);
 
-//        log.info("==============================================");
-//        result.getContent().forEach(arr -> {
-//            log.info(Arrays.toString(arr));
-//        });
-
         Function<Object[], MovieDTO> fn = (arr -> entitiesToDTO(
-                (Movie)arr[0] ,
-                (List<MovieImage>)(Arrays.asList((MovieImage)arr[1])),
+                (Movie) arr[0],
+                (List<MovieImage>) (Arrays.asList((MovieImage) arr[1])),
                 (Double) arr[2],
-                (Long)arr[3])
+                (Long) arr[3])
         );
 
         return new PageResultDTO<>(result, fn);
     }
+
     @Override
     public MovieDTO getMovie(Long mno) {
 
@@ -78,7 +74,7 @@ public class MovieServiceImpl implements MovieService{
         List<MovieImage> movieImageList = new ArrayList<>();    // 영화의 이미지 개수만큼 MovieImage 객체 필요
 
         result.forEach(arr -> {
-            MovieImage  movieImage = (MovieImage)arr[1];
+            MovieImage movieImage = (MovieImage) arr[1];
             movieImageList.add(movieImage);
         });
 
@@ -88,5 +84,11 @@ public class MovieServiceImpl implements MovieService{
         return entitiesToDTO(movie, movieImageList, avg, reviewCnt);
     }
 
+    @Override
+    public void deletePost(long mno) {
+        Movie movie = movieRepository.findById(mno).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id = " + mno));
+        movieRepository.deleteMovie(movie.getMno());
+    }
 }
+
 

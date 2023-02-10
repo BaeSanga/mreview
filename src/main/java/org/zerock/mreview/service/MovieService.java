@@ -27,11 +27,8 @@ public interface MovieService {
     MovieDTO getMovie(Long mno);
 
     // 삭제 처리
-//    default void delete(Long mno){
-//        Movie movie = MovieRepository.findById(mno).orElseThrow(()->
-//                new IllegalArgumentException("해당 게시글 없음. mno=" + mno));
-//        MovieRepository.delete(movie);
-//    }
+    @Transactional
+    void deletePost(long mno);
 
     default MovieDTO entitiesToDTO(Movie movie, List<MovieImage> movieImages, Double avg, Long reviewCnt){
         MovieDTO movieDTO = MovieDTO.builder()

@@ -30,18 +30,24 @@
             </thead>
             <tbody>
 
-            <tr th:each="dto : ${result.dtoList}" >
-                <th scope="row">
-                    <a th:href="@{/movie/read(mno = ${dto.mno}, page= ${result.page})}">
-                        [[${dto.mno}]]
-                    </a>
+            <tr th:each="dto : ${result.dtoList}">
+                <th scope="row" class="mnoText_1">
+                    <a class="mnoText_2" th:href="@{/movie/read(mno = ${dto.mno}, page= ${result.page})}">[[${dto.mno}]]</a>
                 </th>
-                <td><img th:if="${dto.imageDTOList.size() > 0 && dto.imageDTOList[0].path != null }"
-                         th:src="|/display?fileName=${dto.imageDTOList[0].getThumbnailURL()}|" >[[${dto.title}]]</td>
-                <td><b>[[${dto.reviewCnt}]]</b></td>
-                <td><b>[[${dto.avg}]]</b></td>
+                <td>
+                    <img th:if="${dto.imageDTOList.size() > 0 && dto.imageDTOList[0].path != null }" th:src="|/display?fileName=${dto.imageDTOList[0].getThumbnailURL()}|">[[${dto.title}]]
+                </td>
+                <td>
+                    <b>[[${dto.reviewCnt}]]</b>
+                </td>
+                <td>
+                    <b>[[${dto.avg}]]</b>
+                </td>
                 <td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
-                <td><button type="button" class="delYnBtn">삭제</button></td>
+                <td>
+<!--                    <div><a th:href="@{/delete/{mno}(mno=${dto.mno})}">삭제</a></div>-->
+                    <button type="button" name="del_btn" th:data-id="${dto.mno}" class="btn-delete">삭제</button>
+                </td>
             </tr>
 
             </tbody>
@@ -65,29 +71,26 @@
         </ul>
 
         <script th:inline="javascript">
-            $(".delYnBtn").on("click", function(){
-                var del = {mno:mno};
+            $(".btn-delete").on("click", function () {
+                if (confirm("게시물을 삭제하시겠습니까?")) {
+                    var mno = $(this).data('id');
+                    console.log(mno);
+                        $.ajax({
+                            url: "/movie/delete/" + mno,
+                            type: "post",
+                            success: function (result) {
+                                console.log("result: " + result);
+                            }
+                            }).done(function () {         // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
+                            alert('게시글이 삭제되었습니다.');
+                            location.reload(true);
 
-            // delete : function (){
-            //     let mno = $('#mno').val();
-
-                console.log(del);
-
-                $.ajax({
-                    type: 'DELETE',
-                    url: '/movie/delete/' + mno,
-                    dataType: 'json',       // 서버에서 보내줄 데이터의 타입
-                    contentType: 'application/json; charset=utf-8'      // 데이터 타입
-
-                }).done(function(){         // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
-                    alert('게시글이 삭제되었습니다.');
-                    window.location.href = '/';         // 새로운 페이지로 이동된다.
-
-                }).fail(function(error){       // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
-                    alert(JSON.stringify(error));
-                })
+                            }).fail(function (error) {       // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
+                            alert(JSON.stringify(error));
+                            })
+                } else {
+                    }
             });
-
         </script>
     </th:block>
 
