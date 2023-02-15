@@ -65,6 +65,15 @@
             리뷰 등록
         </button>
 
+        <button type="button" class="btn btn-info addReviewBtn">
+            수정
+        </button>
+
+        <button type="button" name="del_btn" th:data-id="${dto.mno}" class="btn-delete">
+            삭제
+        </button>
+
+
         <div class="list-group reviewList">
 
         </div>
@@ -132,6 +141,22 @@
 
                 var grade = 0;
                 var mno = [[${dto.mno}]];
+
+                var actionForm = ("$form");     // form 태그 객체
+                var mno = $(this).data('id');
+
+                $(".remove-Btn").on("click", function(){
+
+                    if(!confirm("삭제하시겠습니까?")){
+                        return ;
+                    }
+
+                    actionForm
+                        .attr("action", "/movie/remove")
+                        .attr("method","post");
+
+                    actionForm.submit();
+                });
 
                 $('.starrr').starrr({
                     rating: grade,

@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 // 나중에 사용할 이미지에 대한 정보 기록
 @Entity
+@Embeddable
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,6 +27,6 @@ public class MovieImage {
     private String path;
 
     // movie 테이블이 PK를 가지고 movie_image 테이블이 FK를 가지므로 movie_image에 @ManyToOne 적용
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)      //무조건 lazy로!
     private Movie movie;
 }

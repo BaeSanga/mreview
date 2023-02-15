@@ -24,8 +24,11 @@ public interface MovieService {
     PageResultDTO<MovieDTO, Object[]> getList(PageRequestDTO requestDTO);
 
     // 조회 처리
-    MovieDTO getMovie(Long mno);
+    MovieDTO getMovie(long mno);
 
+    // 수정 처리
+//    void modify(MovieDTO dto);
+    
     // 삭제 처리
     @Transactional
     void deletePost(long mno);

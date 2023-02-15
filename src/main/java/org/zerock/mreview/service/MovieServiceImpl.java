@@ -65,7 +65,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieDTO getMovie(Long mno) {
+    public MovieDTO getMovie(long mno) {
 
         List<Object[]> result = movieRepository.getMovieWithAll(mno);
 
@@ -88,7 +88,10 @@ public class MovieServiceImpl implements MovieService {
     public void deletePost(long mno) {
         Movie movie = movieRepository.findById(mno).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id = " + mno));
         movieRepository.deleteMovie(movie.getMno());
+
+
     }
+
 }
 
 
