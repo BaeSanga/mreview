@@ -16,6 +16,7 @@ import java.util.List;
 public class MovieDTO {
 
     private Long mno;
+    
     private String title;
     
     // 게시판 삭제 여부

@@ -1,6 +1,7 @@
 package org.zerock.mreview.entity;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.util.*;
@@ -13,6 +14,7 @@ import java.util.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@DynamicInsert          // @DynamicInsert : 컬럼의 지정된 default 값을 적용시키며 INSERT할 때 사용
 @ToString
 public class Movie extends BaseEntity{
 
@@ -24,4 +26,6 @@ public class Movie extends BaseEntity{
 
     private String delYn;     // 삭제 여부
 
+    public void changeTitle(String title) {
+    }
 }

@@ -47,18 +47,23 @@ public class MovieController {
         model.addAttribute("dto", movieDTO);
     }
 
-//    @PostMapping({"/modify"})
-//    public String modify(MovieDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes){
-//        log.info("dto: " + dto);
-//
-//        movieService.modify(dto);
-//    }
+    // 게시물 수정 처리
+    @PostMapping("/modify")
+    public String modify(MovieDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes){
+        movieService.modifyPost(dto);
 
 
-    // Void - 응답을 직접 처리하며, 주로 Ajax의 결과를 리턴할 때 사용된다.
-//    @ResponseBody
-    // 삭제
-    @PostMapping("/list/{mno}")
+        redirectAttributes.addFlashAttribute("page", requestDTO.getPage());
+        redirectAttributes.addFlashAttribute("type",requestDTO.getType());
+        redirectAttributes.addFlashAttribute("keyword",requestDTO.getKeyword());
+
+        redirectAttributes.addFlashAttribute("mno",dto.getMno());
+
+        return "redirect:/movie/read";
+    }
+
+    // 게시물 삭제 처리
+    @PostMapping("/delete/{mno}")
     public String delete(@PathVariable long mno, RedirectAttributes redirectAttributes){
 
         // POST 방식으로 mno 값을 전달하고 삭제 후,

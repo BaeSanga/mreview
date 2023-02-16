@@ -15,10 +15,7 @@ import org.zerock.mreview.entity.MovieImage;
 import org.zerock.mreview.repository.MovieImageRepository;
 import org.zerock.mreview.repository.MovieRepository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Service
@@ -88,10 +85,29 @@ public class MovieServiceImpl implements MovieService {
     public void deletePost(long mno) {
         Movie movie = movieRepository.findById(mno).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id = " + mno));
         movieRepository.deleteMovie(movie.getMno());
+    }
 
+    // 게시물 수정은 기존의 엔티티에서 제목만 수정하고 다시 저장하는 방식
+    @Override
+    public void modifyPost(MovieDTO movieDTO){
+
+        Movie movie = movieRepository.getOne(movieDTO.getMno());
+
+        movie.changeTitle(movieDTO.getTitle());     // 제목
+
+        movieRepository.save(movie);
 
     }
 
+    @Override
+    public MovieDTO entitiesToDTO(Movie movie, List<MovieImage> movieImages, Double avg, Long reviewCnt) {
+        return MovieService.super.entitiesToDTO(movie, movieImages, avg, reviewCnt);
+    }
+
+    @Override
+    public Map<String, Object> dtoToEntity(MovieDTO movieDTO) {
+        return MovieService.super.dtoToEntity(movieDTO);
+    }
 }
 
 

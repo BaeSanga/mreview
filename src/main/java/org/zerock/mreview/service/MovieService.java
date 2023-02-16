@@ -1,6 +1,5 @@
 package org.zerock.mreview.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.zerock.mreview.dto.MovieDTO;
 import org.zerock.mreview.dto.MovieImageDTO;
@@ -8,7 +7,6 @@ import org.zerock.mreview.dto.PageRequestDTO;
 import org.zerock.mreview.dto.PageResultDTO;
 import org.zerock.mreview.entity.Movie;
 import org.zerock.mreview.entity.MovieImage;
-import org.zerock.mreview.repository.MovieRepository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +25,7 @@ public interface MovieService {
     MovieDTO getMovie(long mno);
 
     // 수정 처리
-//    void modify(MovieDTO dto);
+    void modifyPost(MovieDTO movieDTO);     //  서비스에서는 MovieDTO 를 이용해서 수정하는 modifyPost()를 선언
     
     // 삭제 처리
     @Transactional

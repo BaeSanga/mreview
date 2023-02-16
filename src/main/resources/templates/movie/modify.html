@@ -7,12 +7,89 @@
 
         <h1 class="mt-4">Movie Modify Page</h1>
 
-        <div class="form-group">
-            <label >제목</label>
-            <form th:action="" method="post">
-                <input type="text" name="title" class="form-control" th:value="${dto.title}" />
-            </form>
-        </div>
+        <form action="/movie/modify" method="post">
+            <input type="hidden" name="page" th:value="${requestDTO.page}">
+            <input type="hidden" name="type" th:value="${requestDTO.type}">
+            <input type="hidden" name="keyword" th:value="${requestDTO.type}">
+
+            <div class="form-group">
+                <label>MNO</label>
+                <input type="text" class="form-control" name="mno" th:value="${dto.mno}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>제목</label>
+                <input type="text" class="form-control" name="title" th:value="${dto.title}">
+            </div>
+        </form>
+
+        <button type="button" class="modifyBtn">
+            수정
+        </button>
+
+        <!-- 목록 화면으로 이동 -->
+        <button type="button" class="listBtn">
+            목록
+        </button>
+
+        <style>
+            .uploadResult ul {
+                display: flex;
+                flex-flow: row;
+                justify-content: center;
+                align-items: center;
+                vertical-align: top;
+                overflow: auto;
+            }
+
+            .uploadResult ul li {
+                list-style: none;
+                padding: 10px;
+                margin-left: 2em;
+            }
+
+            .uploadResult ul li img {
+                width: 100px;
+            }
+        </style>
+
+        <script th:inline="javascript">
+
+            var actionForm = $("form");     // form 태그 객체
+
+            $('modifyBtn').on("click", function () {
+                if (!confirm("수정하시겠습니까?")){
+                    return ;
+                }
+
+                actionForm
+                .attr("action", "/movie/modify")
+                .attr("method", "post")
+                .submit();
+
+            });
+
+            $('listBtn').on("click", function () {
+                var page = $("input[name='page']");
+                var type = $("input[name='type']");
+                var keyword = $("input[name='keyword']");
+
+
+                actionForm.empty();     // Form 태그의 모든 내용을 지우고
+
+                actionForm.append(page);        // 목록 페이지 이동에 필요한 내용을 다시 추가
+                actionForm.append(type);
+                actionForm.append(keyword);
+
+                actionForm
+                .attr("action", "movie/list")
+                .attr("method", 'get');
+
+                actionForm.submit();
+            });
+
+
+        </script>
     </th:block>
 </th:block>
 </html>

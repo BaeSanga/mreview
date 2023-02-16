@@ -8,17 +8,17 @@
         <h1 class="mt-4">Movie Read Page</h1>
 
         <div class="form-group">
-            <label >제목</label>
+            <label>제목</label>
             <input type="text" class="form-control" name="title" th:value="${dto.title}" readonly>
         </div>
 
         <div class="form-group">
-            <label >리뷰수</label>
+            <label>리뷰수</label>
             <input type="text" class="form-control" name="title" th:value="${dto.reviewCnt}" readonly>
         </div>
 
         <div class="form-group">
-            <label >평균 평점</label>
+            <label>평균 평점</label>
             <input type="text" class="form-control" name="title" th:value="${dto.avg}" readonly>
         </div>
 
@@ -48,280 +48,316 @@
                 width: 100px;
             }
         </style>
+        <form class="container" action="/movie/delete/{mno}" method="post">
+            <div class="uploadResult">
+                <ul>
+                    <li th:each="movieImage: ${dto.imageDTOList}" th:data-file="${movieImage.getThumbnailURL()}">
+                        <img th:if="${movieImage.path != null}"
+                             th:src="|/display?fileName=${movieImage.getThumbnailURL()}|">
+                    </li>
+                </ul>
+            </div>
 
-        <div class="uploadResult">
-            <ul >
-                <li th:each="movieImage: ${dto.imageDTOList}" th:data-file="${movieImage.getThumbnailURL()}">
-                    <img  th:if="${movieImage.path != null}" th:src="|/display?fileName=${movieImage.getThumbnailURL()}|">
-                </li>
-            </ul>
-        </div>
+            <button type="button" class="btn btn-primary">
+                리뷰수<span class="badge badge-light">[[${dto.reviewCnt}]]</span>
+            </button>
 
-        <button type="button" class="btn btn-primary">
-            리뷰수<span class="badge badge-light">[[${dto.reviewCnt}]]</span>
-        </button>
+            <button type="button" class="btn btn-info addReviewBtn">
+                리뷰 등록
+            </button>
 
-        <button type="button" class="btn btn-info addReviewBtn">
-            리뷰 등록
-        </button>
+            <a th:href="@{/movie/modify(mno = ${dto.mno}, page = ${requestDTO.page}, type = ${requestDTO.type}, keyword = ${requestDTO.keyword})}">
+                <button type="button" class="">수정하기</button>
+            </a>
 
-        <button type="button" class="btn btn-info addReviewBtn">
-            수정
-        </button>
+            <!--        <button type="button" name="del_btn" th:data-id="${dto.mno}" class="btn-delete">-->
+            <!--            삭제-->
+            <!--        </button>-->
 
-        <button type="button" name="del_btn" th:data-id="${dto.mno}" class="btn-delete">
-            삭제
-        </button>
+            <div class="list-group reviewList">
 
+            </div>
 
-        <div class="list-group reviewList">
+            <div class="reviewModal modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Movie Review</h5>
 
-        </div>
-
-        <div class="reviewModal modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Movie Review</h5>
-
-<!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                            <span aria-hidden="true">&times;</span>-->
-<!--                        </button>-->
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>회원 ID</label>
-                            <input type="text" class="form-control" name="mid" placeholder="숫자만 입력하세요.">
+                            <!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                            <!--                            <span aria-hidden="true">&times;</span>-->
+                            <!--                        </button>-->
                         </div>
-                        <div class="form-group">
-                            <label>리뷰 점수<span class="grade"></span></label>
-                            <div class='starrr'></div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>회원 ID</label>
+                                <input type="text" class="form-control" name="mid" placeholder="숫자만 입력하세요.">
+                            </div>
+                            <div class="form-group">
+                                <label>리뷰 점수<span class="grade"></span></label>
+                                <div class='starrr'></div>
+                            </div>
+                            <div class="form-group">
+                                <label>내용</label>
+                                <input type="text" class="form-control" name="text">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>내용</label>
-                            <input type="text" class="form-control" name="text">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                            <button type="button" class="btn btn-primary reviewSaveBtn">등록</button>
+                            <button type="button" class="btn btn-warning modifyBtn">수정</button>
+                            <button type="button" class="btn btn-danger removeBtn">삭제</button>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                        <button type="button" class="btn btn-primary reviewSaveBtn">등록</button>
-                        <button type="button" class="btn btn-warning modifyBtn">수정</button>
-                        <button type="button" class="btn btn-danger removeBtn">삭제</button>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="imageModal modal" tabindex="-2" role="dialog">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Picture</h5>
+            <div class="imageModal modal" tabindex="-2" role="dialog">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Picture</h5>
 
-<!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                            <span aria-hidden="true">&times;</span>         &lt;!&ndash; &times은 곱셈 &ndash;&gt;-->
-<!--                        </button>-->
-                    </div>
-                    <div class="modal-body">
+                            <!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                            <!--                            <span aria-hidden="true">&times;</span>         &lt;!&ndash; &times은 곱셈 &ndash;&gt;-->
+                            <!--                        </button>-->
+                        </div>
+                        <div class="modal-body">
 
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <script th:src="@{/starrr.js}"></script>
-        <link th:href="@{/css/starrr.css}" rel="stylesheet">
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+            <script th:src="@{/starrr.js}"></script>
+            <link th:href="@{/css/starrr.css}" rel="stylesheet">
+            <link rel="stylesheet"
+                  href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
 
-        <script>
-            $(document).ready(function(e) {
+            <script>
+                $(document).ready(function (e) {
 
-                var grade = 0;
-                var mno = [[${dto.mno}]];
+                    var grade = 0;
+                    var mno = [[${dto.mno}]];
 
-                var actionForm = ("$form");     // form 태그 객체
-                var mno = $(this).data('id');
+                    var actionForm = ("$form");     // form 태그 객체
+                    var mno = $(this).data('id');
+                    var link = 'http://localhost:8080/movie/list';
 
-                $(".remove-Btn").on("click", function(){
+                    $(".btn-delete").on("click", function () {
 
-                    if(!confirm("삭제하시겠습니까?")){
-                        return ;
-                    }
+                        if (confirm("게시물을 삭제하시겠습니까?")) {
 
-                    actionForm
-                        .attr("action", "/movie/remove")
-                        .attr("method","post");
+                            var mno = $(this).data('id');
+                            console.log(mno);
 
-                    actionForm.submit();
-                });
-
-                $('.starrr').starrr({
-                    rating: grade,
-                    change: function(e, value){
-                        if (value) {
-                            console.log(value);
-                            grade = value;
+                            alert('게시글이 삭제되었습니다.');
+                            location.href = link;
                         }
-                    }
-                });
-
-                // $(".reviewModal").modal("show"); 미리 보기용
-
-                var reviewModal = $(".reviewModal");
-                var inputMid = $('input[name="mid"]');
-                var inputText = $('input[name="text"]');
-
-                $(".addReviewBtn").click(function () {
-                    inputMid.val("");
-                    inputText.val("");
-
-                    $(".removeBtn ,  .modifyBtn").hide();
-                    $(".reviewSaveBtn").show();
-
-                    reviewModal.modal('show');
-                });
-
-                // 닫기 버튼 구현
-                $(".btn-secondary").on("click", function() {
-                    reviewModal.modal('hide');
-                });
-
-                $('.reviewSaveBtn').click(function() {
-
-                    var data = {mno:mno, grade:grade, text:inputText.val(), mid: inputMid.val() };
-
-                    console.log(data);
-
-                    $.ajax({
-                        url:'/reviews/'+mno,
-                        type:"POST",
-                        data:JSON.stringify(data),
-                        contentType:"application/json; charset=utf-8",
-                        dataType:"text",
-                        success: function(result){
-
-                            console.log("result: " + result);
-
-                            self.location.reload();
-                        }
-                    })
-                    reviewModal.modal('hide');
-                });
-
-                //페이지가 열리면 바로 리뷰 데이터들을 가져와서 사용한다.
-                function getMovieReviews() {
-
-                    function formatTime(str){
-                        var date = new Date(str);
-
-                        return date.getFullYear() + '/' +
-                            (date.getMonth() + 1) + '/' +
-                            date.getDate() + ' ' +
-                            date.getHours() + ':' +
-                            date.getMinutes();
-                    }
-
-                    $.getJSON("/reviews/"+ mno +"/all", function(arr){
-                        var str ="";
-
-                        $.each(arr, function(idx, review){
-
-                            console.log(review);
-
-                            str += '    <div class="card-body" data-reviewnum='+review.reviewnum+' data-mid='+review.mid+'>';
-                            str += '    <h5 class="card-title">'+review.text+' <span>'+ review.grade+'</span></h5>';
-                            str += '    <h6 class="card-subtitle mb-2 text-muted">'+review.nickname+'</h6>';
-                            str += '    <p class="card-text">'+ formatTime(review.regDate) +'</p>';
-                            str += '    </div>';
-                        });
-
-                        $(".reviewList").html(str);
+                        //     $.ajax({
+                        //         url: "/movie/delete/" + mno,
+                        //         type: "post",
+                        //         success: function (result) {
+                        //             console.log("result: " + result);
+                        //         }
+                        //     }).done(function () {         // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
+                        //         alert('게시글이 삭제되었습니다.');
+                        //         location.href=link;
+                        //
+                        //     }).fail(function (error) {       // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
+                        //         alert(JSON.stringify(error));
+                        //     })
+                        // } else {
+                        // }
                     });
-                }
 
-                getMovieReviews();
 
-                //modify reveiw
+                    $(".remove-Btn").on("click", function () {
 
-                var reviewnum;
-
-                $(".reviewList").on("click", ".card-body", function() {
-
-                    $(".reviewSaveBtn").hide();
-                    $(".removeBtn , .modifyBtn").show();
-
-                    var targetReview = $(this);
-
-                    reviewnum = targetReview.data("reviewnum");
-                    console.log("reviewnum: "+ reviewnum);
-                    inputMid.val(targetReview.data("mid"));
-                    inputText.val(targetReview.find('.card-title').clone().children().remove().end().text());
-
-                    var grade = targetReview.find('.card-title span').html();
-                    $(".starrr a:nth-child("+grade+")").trigger('click');
-
-                    $('.reviewModal').modal('show');
-                });
-
-                $(".modifyBtn").on("click", function(){
-
-                    var data = {reviewnum: reviewnum, mno:mno, grade:grade, text:inputText.val(), mid: inputMid.val() };
-
-                    console.log(data);
-
-                    $.ajax({
-                        url:'/reviews/'+mno +"/"+ reviewnum ,
-                        type:"PUT",
-                        data:JSON.stringify(data),
-                        contentType:"application/json; charset=utf-8",
-                        dataType:"text",
-                        success: function(result){
-
-                            console.log("result: " + result);
-
-                            self.location.reload();
-
+                        if (!confirm("삭제하시겠습니까?")) {
+                            return;
                         }
-                    })
-                    reviewModal.modal('hide');
-                });
 
-                $(".removeBtn").on("click", function(){
+                        actionForm
+                            .attr("action", "/movie/remove")
+                            .attr("method", "post");
 
-                    var data = {reviewnum: reviewnum};
+                        actionForm.submit();
+                    });
 
-                    console.log(data);
-
-                    $.ajax({
-                        url:'/reviews/'+mno +"/"+ reviewnum ,
-                        type:"DELETE",
-                        contentType:"application/json; charset=utf-8",
-                        dataType:"text",
-                        success: function(result){
-
-                            console.log("result: " + result);
-
-                            self.location.reload();
+                    $('.starrr').starrr({
+                        rating: grade,
+                        change: function (e, value) {
+                            if (value) {
+                                console.log(value);
+                                grade = value;
+                            }
                         }
-                    })
-                    reviewModal.modal('hide');
+                    });
+
+                    // $(".reviewModal").modal("show"); 미리 보기용
+
+                    var reviewModal = $(".reviewModal");
+                    var inputMid = $('input[name="mid"]');
+                    var inputText = $('input[name="text"]');
+
+                    $(".addReviewBtn").click(function () {
+                        inputMid.val("");
+                        inputText.val("");
+
+                        $(".removeBtn ,  .modifyBtn").hide();
+                        $(".reviewSaveBtn").show();
+
+                        reviewModal.modal('show');
+                    });
+
+                    // 닫기 버튼 구현
+                    $(".btn-secondary").on("click", function () {
+                        reviewModal.modal('hide');
+                    });
+
+                    $('.reviewSaveBtn').click(function () {
+
+                        var data = {mno: mno, grade: grade, text: inputText.val(), mid: inputMid.val()};
+
+                        console.log(data);
+
+                        $.ajax({
+                            url: '/reviews/' + mno,
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+
+                                console.log("result: " + result);
+
+                                self.location.reload();
+                            }
+                        })
+                        reviewModal.modal('hide');
+                    });
+
+                    //페이지가 열리면 바로 리뷰 데이터들을 가져와서 사용한다.
+                    function getMovieReviews() {
+
+                        function formatTime(str) {
+                            var date = new Date(str);
+
+                            return date.getFullYear() + '/' +
+                                (date.getMonth() + 1) + '/' +
+                                date.getDate() + ' ' +
+                                date.getHours() + ':' +
+                                date.getMinutes();
+                        }
+
+                        $.getJSON("/reviews/" + mno + "/all", function (arr) {
+                            var str = "";
+
+                            $.each(arr, function (idx, review) {
+
+                                console.log(review);
+
+                                str += '    <div class="card-body" data-reviewnum=' + review.reviewnum + ' data-mid=' + review.mid + '>';
+                                str += '    <h5 class="card-title">' + review.text + ' <span>' + review.grade + '</span></h5>';
+                                str += '    <h6 class="card-subtitle mb-2 text-muted">' + review.nickname + '</h6>';
+                                str += '    <p class="card-text">' + formatTime(review.regDate) + '</p>';
+                                str += '    </div>';
+                            });
+
+                            $(".reviewList").html(str);
+                        });
+                    }
+
+                    getMovieReviews();
+
+                    //modify reveiw
+
+                    var reviewnum;
+
+                    $(".reviewList").on("click", ".card-body", function () {
+
+                        $(".reviewSaveBtn").hide();
+                        $(".removeBtn , .modifyBtn").show();
+
+                        var targetReview = $(this);
+
+                        reviewnum = targetReview.data("reviewnum");
+                        console.log("reviewnum: " + reviewnum);
+                        inputMid.val(targetReview.data("mid"));
+                        inputText.val(targetReview.find('.card-title').clone().children().remove().end().text());
+
+                        var grade = targetReview.find('.card-title span').html();
+                        $(".starrr a:nth-child(" + grade + ")").trigger('click');
+
+                        $('.reviewModal').modal('show');
+                    });
+
+                    $(".modifyBtn").on("click", function () {
+
+                        var data = {
+                            reviewnum: reviewnum,
+                            mno: mno,
+                            grade: grade,
+                            text: inputText.val(),
+                            mid: inputMid.val()
+                        };
+
+                        console.log(data);
+
+                        $.ajax({
+                            url: '/reviews/' + mno + "/" + reviewnum,
+                            type: "PUT",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+
+                                console.log("result: " + result);
+
+                                self.location.reload();
+
+                            }
+                        })
+                        reviewModal.modal('hide');
+                    });
+
+                    $(".removeBtn").on("click", function () {
+
+                        var data = {reviewnum: reviewnum};
+
+                        console.log(data);
+
+                        $.ajax({
+                            url: '/reviews/' + mno + "/" + reviewnum,
+                            type: "DELETE",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+
+                                console.log("result: " + result);
+
+                                self.location.reload();
+                            }
+                        })
+                        reviewModal.modal('hide');
+                    });
+
+                    $(".uploadResult li").click(function () {
+
+                        var file = $(this).data('file');
+
+                        console.log(file);
+
+                        $('.imageModal .modal-body').html("<img style='width:100%' src='/display?fileName=" + file + "&size=1' >")
+
+                        $(".imageModal").modal("show");
+                    });
+
                 });
-
-                $(".uploadResult li").click(function() {
-
-                    var file = $(this).data('file');
-
-                    console.log(file);
-
-                    $('.imageModal .modal-body').html("<img style='width:100%' src='/display?fileName="+file+"&size=1' >")
-
-                    $(".imageModal").modal("show");
-                });
-
-            });
-        </script>
+            </script>
     </th:block>
 </th:block>
