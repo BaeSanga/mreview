@@ -35,4 +35,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     @Query("update Movie set delYn = 'Y' where mno = :mno")
     void deleteMovie(long mno);
 
+    @Query ("update Movie set title = '?' where mno = :mno")
+    void modifyMovie(long mno);
+
 }

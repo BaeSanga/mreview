@@ -95,8 +95,8 @@ public class MovieServiceImpl implements MovieService {
 
         movie.changeTitle(movieDTO.getTitle());     // 제목
 
-        movieRepository.save(movie);
-
+//        movieRepository.save(movie);
+        movieRepository.modifyMovie(movie.getMno());
     }
 
     @Override
