@@ -5,14 +5,14 @@
 
     <th:block th:fragment="content">
 
-        <h1 class="mt-4">Movie List Page
+        <h2 class="mt-4">Movie 목록 페이지
             <span>
                 <a th:href="@{/movie/register}">
                     <button type="button" class="btn btn-outline-primary">등록하기
                     </button>
                 </a>
             </span>
-        </h1>
+        </h2>
 
         <form action="/movie/list" method="get" id="searchForm">
             <input type="hidden" name="page" value="1">

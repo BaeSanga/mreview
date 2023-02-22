@@ -19,7 +19,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
 
-    // 특정 영화 리뷰 목록 출력
+
     @Override
     public List<ReviewDTO> getListOfMovie(Long mno){
 
@@ -30,25 +30,21 @@ public class ReviewServiceImpl implements ReviewService {
         return result.stream().map(movieReview -> entityToDto(movieReview)).collect(Collectors.toList());
     }
 
-    // 리뷰 등록
     @Override
     public Long register(ReviewDTO movieReviewDTO) {
 
-        Review movieReview = dtoToEntity(movieReviewDTO);       // dtoToEntity 메소드를 호출해 movieReview 변수에 담아줌
+        Review movieReview = dtoToEntity(movieReviewDTO);
 
-        // 데이터베이스 review 테이블에서 movieReview 데이터를 저장시키는 시점에 reviewNum을 자동 생성을 해줌
-        // save(저장) 메소드에 reviewNum을 자동 생성해줌
         reviewRepository.save(movieReview);
 
-        return movieReview.getReviewNum();
+        return movieReview.getReviewnum();
     }
 
-    // 리뷰 수정
     @Override
     public void modify(ReviewDTO movieReviewDTO) {
 
         Optional<Review> result =
-                reviewRepository.findById(movieReviewDTO.getReviewNum());
+                reviewRepository.findById(movieReviewDTO.getReviewnum());
 
         if(result.isPresent()){
 
@@ -61,11 +57,10 @@ public class ReviewServiceImpl implements ReviewService {
 
     }
 
-    // 리뷰 삭제
     @Override
-    public void remove(Long reviewNum) {
+    public void remove(Long reviewnum) {
 
-        reviewRepository.deleteById(reviewNum);
+        reviewRepository.deleteById(reviewnum);
 
     }
 }

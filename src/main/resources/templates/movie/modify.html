@@ -5,32 +5,26 @@
 
     <th:block th:fragment="content">
 
-        <h1 class="mt-4">Movie Modify Page</h1>
+        <h2 class="mt-4">Movie 수정 페이지</h2>
 
-        <form action="/movie/modify" method="post">
+        <form method="post">
             <input type="hidden" name="page" th:value="${requestDTO.page}">
             <input type="hidden" name="type" th:value="${requestDTO.type}">
             <input type="hidden" name="keyword" th:value="${requestDTO.keyword}">
 
             <div class="form-group">
                 <label>MNO</label>
-                <input type="text" class="form-control" name="mno" th:value="${dto.mno}">
+                <input type="text" class="form-control modStyle1" name="mno" th:value="${dto.mno}">
             </div>
 
             <div class="form-group">
                 <label>제목</label>
-                <input type="text" class="form-control" name="title" th:value="${dto.title}">
+                <input type="text" class="form-control modStyle2" name="title" th:value="${dto.title}">
             </div>
         </form>
 
         <button type="button" class="btn btn-primary modifyBtn">수정완료</button>
         <button type="button" name="del_btn" th:data-id="${dto.mno}" class="btn btn-primary removeBtn">삭제</button>
-
-
-        <!-- 목록 화면으로 이동 -->
-<!--        <button type="button" class="listBtn">-->
-<!--            목록-->
-<!--        </button>-->
 
         <style>
             .uploadResult ul {
@@ -59,6 +53,15 @@
             .removeBtn {
                 margin-top: 10px;
             }
+
+            .modStyle1 {
+                background-color: #D6E6F2;
+                margin-bottom: 10px;
+            }
+
+            .modStyle2 {
+                margin-bottom: 10px;
+            }
         </style>
 
         <script th:inline="javascript">
@@ -68,8 +71,7 @@
             $(".modifyBtn").click(function (){
                 if(confirm("수정하시겠습니까?")){
                     actionForm
-                        .attr("action", "/movie/modify")
-                        .attr("method", "post")
+                        .attr("action", "/movie/modify")        //  action 속성을 추가하고 속성의 값은 /movie/modify 로 함
                         .submit();
                 } else {
                     alert("수정 취소");
@@ -80,7 +82,6 @@
                 if(confirm("삭제하시겠습니까?")){
                     actionForm
                         .attr("action", "/movie/remove")
-                        .attr("method", "post");
                     actionForm.submit();
 
                 } else {

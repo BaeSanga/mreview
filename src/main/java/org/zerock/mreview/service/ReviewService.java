@@ -9,22 +9,22 @@ import java.util.List;
 
 public interface ReviewService {
 
-    //영화의 모든 영화리뷰를 가져옴
+    //영화의 모든 영화리뷰를 가져온다.
     List<ReviewDTO> getListOfMovie(Long mno);
 
     //영화 리뷰를 추가
-    Long register(ReviewDTO movieReviewDTO);            // register 메소드는 인터페이스니까 구현을 해줘야됨
+    Long register(ReviewDTO movieReviewDTO);
 
     //특정한 영화리뷰 수정
     void modify(ReviewDTO movieReviewDTO);
 
     //영화 리뷰 삭제
-    void remove(Long reviewNum);
+    void remove(Long reviewnum);
 
-    default Review dtoToEntity(ReviewDTO movieReviewDTO){           // 화면에 담아줌
+    default Review dtoToEntity(ReviewDTO movieReviewDTO){
 
-        Review movieReview = Review.builder()                       // reviewNum, movie, member, grade, text를 get해서 movieReview를 생성해준다.
-                .reviewNum(movieReviewDTO.getReviewNum())
+        Review movieReview = Review.builder()
+                .reviewnum(movieReviewDTO.getReviewnum())
                 .movie(Movie.builder().mno(movieReviewDTO.getMno()).build())
                 .member(Member.builder().mid(movieReviewDTO.getMid()).build())
                 .grade(movieReviewDTO.getGrade())
@@ -37,7 +37,7 @@ public interface ReviewService {
     default ReviewDTO entityToDto(Review movieReview){
 
         ReviewDTO movieReviewDTO = ReviewDTO.builder()
-                .reviewNum(movieReview.getReviewNum())
+                .reviewnum(movieReview.getReviewnum())
                 .mno(movieReview.getMovie().getMno())
                 .mid(movieReview.getMember().getMid())
                 .nickname(movieReview.getMember().getNickname())
