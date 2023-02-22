@@ -28,7 +28,6 @@ public interface MovieService {
     void modifyPost(MovieDTO movieDTO);     //  서비스에서는 MovieDTO 를 이용해서 수정하는 modifyPost()를 선언
     
     // 삭제 처리
-    @Transactional
     void deletePost(long mno);
 
     default MovieDTO entitiesToDTO(Movie movie, List<MovieImage> movieImages, Double avg, Long reviewCnt){

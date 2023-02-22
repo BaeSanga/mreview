@@ -35,9 +35,9 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     @Query("update Movie set delYn = 'Y' where mno = :mno")         // 매개변수를 사용할 때에는 : 를 붙여 사용할 수 있음
     void deleteMovie(long mno);
 
-    @Modifying
-    @Transactional
-    @Query ("update Movie set title = :title where mno = :mno")
-    void modifyMovie(long mno);
+//    @Modifying
+//    @Transactional
+//    @Query ("update Movie set title = :title where mno = :mno")
+//    void modifyMovie(long mno);
 
 }

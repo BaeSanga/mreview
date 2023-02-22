@@ -7,7 +7,7 @@
 
         <h1 class="mt-4">Movie Modify Page</h1>
 
-        <form method="post">
+        <form action="/movie/modify" method="post">
             <input type="hidden" name="page" th:value="${requestDTO.page}">
             <input type="hidden" name="type" th:value="${requestDTO.type}">
             <input type="hidden" name="keyword" th:value="${requestDTO.keyword}">
@@ -23,9 +23,9 @@
             </div>
         </form>
 
-        <button type="button" class="modifyBtn">
-            수정완료
-        </button>
+        <button type="button" class="btn btn-primary modifyBtn">수정완료</button>
+        <button type="button" name="del_btn" th:data-id="${dto.mno}" class="btn btn-primary removeBtn">삭제</button>
+
 
         <!-- 목록 화면으로 이동 -->
 <!--        <button type="button" class="listBtn">-->
@@ -51,37 +51,42 @@
             .uploadResult ul li img {
                 width: 100px;
             }
+
+            .modifyBtn {
+                margin-top: 10px;
+            }
+
+            .removeBtn {
+                margin-top: 10px;
+            }
         </style>
 
         <script th:inline="javascript">
 
             var actionForm = $("form");     // form 태그 객체
 
-            var mno = $("input[name=mno]").val();
-            var title = $("input[name='title']");
-            var page = $("input[name='page']");
-            var type = $("input[name='type']");
-            var keyword = $("input[name='keyword']");
-
-            $('.modifyBtn').on("click", function () {
-
-                if (confirm("수정하시겠습니까?")) {
-
-                    // actionForm.empty();     // Form 태그의 모든 내용을 지우고
-
-                    // actionForm.append(page);        // 목록 페이지 이동에 필요한 내용을 다시 추가
-                    // actionForm.append(type);
-                    // actionForm.append(keyword);
-                    // actionForm
-                    //     .attr("action", `/movie/read`)
-                    //     .attr("method", "POST");
+            $(".modifyBtn").click(function (){
+                if(confirm("수정하시겠습니까?")){
                     actionForm
-                        .attr("action", `/movie/modify/${mno}`);        // attr(속성, 속성의 값)
+                        .attr("action", "/movie/modify")
+                        .attr("method", "post")
+                        .submit();
+                } else {
+                    alert("수정 취소");
+                }
+            });
+
+            $(".removeBtn").click(function (){
+                if(confirm("삭제하시겠습니까?")){
+                    actionForm
+                        .attr("action", "/movie/remove")
+                        .attr("method", "post");
                     actionForm.submit();
 
-                    // $(this).prop('disabled',true);      // 버튼 활성화
-
-                }});
+                } else {
+                    alert("삭제 취소");
+                }
+            });
         </script>
     </th:block>
 </th:block>

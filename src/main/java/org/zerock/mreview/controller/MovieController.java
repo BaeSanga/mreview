@@ -72,15 +72,15 @@ public class MovieController {
         redirectAttributes.addFlashAttribute("page", requestDTO.getPage());
         redirectAttributes.addFlashAttribute("type",requestDTO.getType());
         redirectAttributes.addFlashAttribute("keyword",requestDTO.getKeyword());
-        redirectAttributes.addFlashAttribute("title",dto.getTitle());
+
         redirectAttributes.addFlashAttribute("mno",dto.getMno());
 
         return "redirect:/movie/list";
     }
 
     // 게시물 삭제 처리
-    @PostMapping("/delete/{mno}")
-    public String delete(@PathVariable long mno, RedirectAttributes redirectAttributes){
+    @PostMapping("/remove")
+    public String remove(long mno, RedirectAttributes redirectAttributes){
 
         // POST 방식으로 mno 값을 전달하고 삭제 후,
         movieService.deletePost(mno);

@@ -81,22 +81,26 @@ public class MovieServiceImpl implements MovieService {
         return entitiesToDTO(movie, movieImageList, avg, reviewCnt);
     }
 
+    @Transactional
     @Override
     public void deletePost(long mno) {
         Movie movie = movieRepository.findById(mno).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id = " + mno));
-        movieRepository.deleteMovie(movie.getMno());
+
+        movieRepository.deleteMovie(mno);
     }
 
     // 게시물 수정은 기존의 엔티티에서 제목만 수정하고 다시 저장하는 방식
+    @Transactional
     @Override
     public void modifyPost(MovieDTO movieDTO){
-        Movie movie = movieRepository.findById(movieDTO.getMno()).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id = " + movieDTO.getMno()));
+//        Movie movie = movieRepository.findById(movieDTO.getMno()).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id = " + movieDTO.getMno()));
 
-//        Movie movie = movieRepository.getOne(movieDTO.getMno());
+        Movie movie = movieRepository.getOne(movieDTO.getMno());
 
         movie.changeTitle(movieDTO.getTitle());     // 제목
 
-        movieRepository.modifyMovie(movie.getMno());
+        movieRepository.save(movie);
+//        movieRepository.modifyMovie(movie.getMno());
     }
 
     @Override

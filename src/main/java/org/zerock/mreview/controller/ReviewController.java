@@ -38,7 +38,7 @@ public class ReviewController {
 
         // 카멜케이스(중간 글자들은 대문자로 시작하지만 첫 글자가 소문자) 무조건 지키기 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         Long reviewNum = reviewService.register(movieReviewDTO);        // reviewService에 있는 register 메소드를 호출해서 reviewNum에 담아준다
-                                                                        // reviewNum는 고유번호, 식별자니까 수정, 삭제 시 reviewNum을 파라미터로 받아온다.
+        // reviewNum는 고유번호, 식별자니까 수정, 삭제 시 reviewNum을 파라미터로 받아온다.
         return new ResponseEntity<>(reviewNum, HttpStatus.OK);          // "객체"의 내용이 HTTP message body의 JSON 형태로 담겨지고, HTTP 상태코드를 전달하도록 한다.
     }
 

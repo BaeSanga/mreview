@@ -19,7 +19,7 @@ public interface ReviewService {
     void modify(ReviewDTO movieReviewDTO);
 
     //영화 리뷰 삭제
-    void remove(Long reviewNum);
+    void remove(Long reviewnum);
 
     default Review dtoToEntity(ReviewDTO movieReviewDTO){           // 화면에 담아줌
 

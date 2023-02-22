@@ -15,7 +15,7 @@ public class Review extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)         // 자동생성
-                                                                // IDENTITY 속성은 바로 쿼리를 DB에 날려 데이터를 등록하고 식별자를 리턴받음
+    // IDENTITY 속성은 바로 쿼리를 DB에 날려 데이터를 등록하고 식별자를 리턴받음
     private Long reviewnum;
 
     @ManyToOne(fetch = FetchType.LAZY)
