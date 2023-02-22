@@ -43,25 +43,25 @@ public class ReviewController {
     }
 
     // 결과데이터 : 리뷰의 수정 성공 여부, 리뷰수정
-    @PutMapping("/{mno}/{reviewnum}")
-    public ResponseEntity<Long> modifyReview(@PathVariable Long reviewnum,
+    @PutMapping("/{mno}/{reviewNum}")
+    public ResponseEntity<Long> modifyReview(@PathVariable Long reviewNum,
                                              @RequestBody ReviewDTO movieReviewDTO){
-        log.info("---------------modify MovieReview--------------" + reviewnum);
+        log.info("---------------modify MovieReview--------------" + reviewNum);
         log.info("reviewDTO: " + movieReviewDTO);
 
         reviewService.modify(movieReviewDTO);
 
-        return new ResponseEntity<>(reviewnum, HttpStatus.OK);
+        return new ResponseEntity<>(reviewNum, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{mno}/{reviewnum}")
-    public ResponseEntity<Long> removeReview( @PathVariable Long reviewnum){
+    @DeleteMapping("/{mno}/{reviewNum}")
+    public ResponseEntity<Long> removeReview( @PathVariable Long reviewNum){
         log.info("---------------modify removeReview--------------");
-        log.info("reviewnum: " + reviewnum);
+        log.info("reviewNum: " + reviewNum);
 
-        reviewService.remove(reviewnum);
+        reviewService.remove(reviewNum);
 
-        return new ResponseEntity<>(reviewnum, HttpStatus.OK);
+        return new ResponseEntity<>(reviewNum, HttpStatus.OK);
     }
 
 }

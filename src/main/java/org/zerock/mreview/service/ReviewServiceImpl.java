@@ -40,7 +40,7 @@ public class ReviewServiceImpl implements ReviewService {
         // save(저장) 메소드에 reviewNum을 자동 생성해줌
         reviewRepository.save(movieReview);
 
-        return movieReview.getReviewnum();
+        return movieReview.getReviewNum();
     }
 
     // 리뷰 수정
@@ -48,7 +48,7 @@ public class ReviewServiceImpl implements ReviewService {
     public void modify(ReviewDTO movieReviewDTO) {
 
         Optional<Review> result =
-                reviewRepository.findById(movieReviewDTO.getReviewnum());
+                reviewRepository.findById(movieReviewDTO.getReviewNum());
 
         if(result.isPresent()){
 
@@ -63,9 +63,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     // 리뷰 삭제
     @Override
-    public void remove(Long reviewnum) {
+    public void remove(Long reviewNum) {
 
-        reviewRepository.deleteById(reviewnum);
+        reviewRepository.deleteById(reviewNum);
 
     }
 }

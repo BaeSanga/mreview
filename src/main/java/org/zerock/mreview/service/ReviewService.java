@@ -19,12 +19,12 @@ public interface ReviewService {
     void modify(ReviewDTO movieReviewDTO);
 
     //영화 리뷰 삭제
-    void remove(Long reviewnum);
+    void remove(Long reviewNum);
 
     default Review dtoToEntity(ReviewDTO movieReviewDTO){           // 화면에 담아줌
 
-        Review movieReview = Review.builder()                       // reviewnum, movie, member, grade, text를 get해서 movieReview를 생성해준다.
-                .reviewnum(movieReviewDTO.getReviewnum())
+        Review movieReview = Review.builder()                       // reviewNum, movie, member, grade, text를 get해서 movieReview를 생성해준다.
+                .reviewNum(movieReviewDTO.getReviewNum())
                 .movie(Movie.builder().mno(movieReviewDTO.getMno()).build())
                 .member(Member.builder().mid(movieReviewDTO.getMid()).build())
                 .grade(movieReviewDTO.getGrade())
@@ -37,7 +37,7 @@ public interface ReviewService {
     default ReviewDTO entityToDto(Review movieReview){
 
         ReviewDTO movieReviewDTO = ReviewDTO.builder()
-                .reviewnum(movieReview.getReviewnum())
+                .reviewNum(movieReview.getReviewNum())
                 .mno(movieReview.getMovie().getMno())
                 .mid(movieReview.getMember().getMid())
                 .nickname(movieReview.getMember().getNickname())

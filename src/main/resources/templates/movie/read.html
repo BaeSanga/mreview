@@ -270,7 +270,7 @@
 
                                 console.log(review);
 
-                                str += '    <div class="card-body" data-reviewnum=' + review.reviewnum + ' data-mid=' + review.mid + '>';
+                                str += '    <div class="card-body" data-reviewNum=' + review.reviewNum + ' data-mid=' + review.mid + '>';
                                 str += '    <h5 class="card-title">' + review.text + ' <span>' + review.grade + '</span></h5>';
                                 str += '    <h6 class="card-subtitle mb-2 text-muted">' + review.nickname + '</h6>';
                                 str += '    <p class="card-text">' + formatTime(review.regDate) + '</p>';
@@ -285,7 +285,7 @@
 
                     //modify reveiw
 
-                    var reviewnum;
+                    var reviewNum;
 
                     $(".reviewList").on("click", ".card-body", function () {
 
@@ -294,8 +294,8 @@
 
                         var targetReview = $(this);
 
-                        reviewnum = targetReview.data("reviewnum");
-                        console.log("reviewnum: " + reviewnum);
+                        reviewNum = targetReview.data("reviewNum");
+                        console.log("reviewNum: " + reviewNum);
                         inputMid.val(targetReview.data("mid"));
                         inputText.val(targetReview.find('.card-title').clone().children().remove().end().text());
 
@@ -308,7 +308,7 @@
                     $(".modifyBtn").on("click", function () {
 
                         var data = {
-                            reviewnum: reviewnum,
+                            reviewNum: reviewNum,
                             mno: mno,
                             grade: grade,
                             text: inputText.val(),
@@ -318,7 +318,7 @@
                         console.log(data);
 
                         $.ajax({
-                            url: '/reviews/' + mno + "/" + reviewnum,
+                            url: '/reviews/' + mno + "/" + reviewNum,
                             type: "PUT",
                             data: JSON.stringify(data),
                             contentType: "application/json; charset=utf-8",
@@ -336,12 +336,12 @@
 
                     $(".removeBtn").on("click", function () {
 
-                        var data = {reviewnum: reviewnum};
+                        var data = {reviewNum: reviewNum};
 
                         console.log(data);
 
                         $.ajax({
-                            url: '/reviews/' + mno + "/" + reviewnum,
+                            url: '/reviews/' + mno + "/" + reviewNum,
                             type: "DELETE",
                             contentType: "application/json; charset=utf-8",
                             dataType: "text",
