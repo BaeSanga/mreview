@@ -23,10 +23,13 @@ public class Movie extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)     // PK의 생성 규칙
     private Long mno;
 
+    @Column
     private String title;
 
     private String delYn;     // 삭제 여부
 
     public void changeTitle(String title) {
+        this.title = title;
     }
+
 }

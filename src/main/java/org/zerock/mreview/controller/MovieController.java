@@ -41,25 +41,41 @@ public class MovieController {
     }
 
     @GetMapping({"/read", "/modify"})
-    public void read(long mno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model){
+    public void read(Integer mno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model){
         log.info("mno: " + mno);
         MovieDTO movieDTO = movieService.getMovie(mno);
         model.addAttribute("dto", movieDTO);
     }
 
-    // 게시물 수정 처리
+
+//    @PostMapping({"/read/{mno}"})
+//    public String readPost(MovieDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes) {
+//
+//        movieService.readPost(dto);
+//
+//        redirectAttributes.addFlashAttribute("page", requestDTO.getPage());
+//        redirectAttributes.addFlashAttribute("type",requestDTO.getType());
+//        redirectAttributes.addFlashAttribute("keyword",requestDTO.getKeyword());
+//        redirectAttributes.addFlashAttribute("title",dto.getTitle());
+//        redirectAttributes.addFlashAttribute("mno",dto.getMno());
+//
+//        return "redirect:/movie/list";
+//
+//    }
+
+        // 게시물 수정 처리
     @PostMapping("/modify")
     public String modify(MovieDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes){
-        movieService.modifyPost(dto);
 
+        movieService.modifyPost(dto);
 
         redirectAttributes.addFlashAttribute("page", requestDTO.getPage());
         redirectAttributes.addFlashAttribute("type",requestDTO.getType());
         redirectAttributes.addFlashAttribute("keyword",requestDTO.getKeyword());
-
+        redirectAttributes.addFlashAttribute("title",dto.getTitle());
         redirectAttributes.addFlashAttribute("mno",dto.getMno());
 
-        return "redirect:/movie/read";
+        return "redirect:/movie/list";
     }
 
     // 게시물 삭제 처리

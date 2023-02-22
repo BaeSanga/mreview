@@ -138,7 +138,12 @@
 
                 $(".custom-file-input").on("change", function() {
 
+                    //pop() : 배열에서 마지막 요소를 제거하고 그 요소를 반환합니다.
                     var fileName = $(this).val().split("\\").pop();
+
+                    //siblings() : 자신을 제외한 형제 요소를 찾습니다.
+                    //addClass() : 새로운 클래스를 추가(이미 가지고 있는 클래스는 추가되지 않습니다.)
+                    //html() : 요소안의 내용을 지우고 새로운 내용을 넣습니다.
                     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 
                     var formData = new FormData();
@@ -175,7 +180,7 @@
                         contentType: false,
                         data: formData,
                         type: 'POST',
-                        dataType:'json',
+                        dataType:'json',            // 서버 응답으로 받는 데이터 타입
                         success: function(result){
                             console.log(result);
                             showResult(result);

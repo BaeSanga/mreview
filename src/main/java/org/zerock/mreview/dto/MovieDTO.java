@@ -1,9 +1,7 @@
 package org.zerock.mreview.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.zerock.mreview.entity.Movie;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,6 +9,8 @@ import java.util.List;
 
 @Data
 @Builder
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class MovieDTO {
@@ -34,6 +34,7 @@ public class MovieDTO {
 
     private LocalDateTime regDate;
     private LocalDateTime modDate;
+
 }
 
 

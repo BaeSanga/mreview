@@ -90,12 +90,12 @@ public class MovieServiceImpl implements MovieService {
     // 게시물 수정은 기존의 엔티티에서 제목만 수정하고 다시 저장하는 방식
     @Override
     public void modifyPost(MovieDTO movieDTO){
+        Movie movie = movieRepository.findById(movieDTO.getMno()).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id = " + movieDTO.getMno()));
 
-        Movie movie = movieRepository.getOne(movieDTO.getMno());
+//        Movie movie = movieRepository.getOne(movieDTO.getMno());
 
         movie.changeTitle(movieDTO.getTitle());     // 제목
 
-//        movieRepository.save(movie);
         movieRepository.modifyMovie(movie.getMno());
     }
 

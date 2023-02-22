@@ -30,12 +30,14 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     List<Object[]> getMovieWithAll(Long mno);           // 특정 영화 조회
 
     // 삭제 N -> Y
-    @Modifying
-    @Transactional
-    @Query("update Movie set delYn = 'Y' where mno = :mno")
+    @Modifying          // SELECT가 아님을 명시하는 어노테이션
+    @Transactional      // UPDATE, DELETE 문에서는 표기해야 정상적으로 작동
+    @Query("update Movie set delYn = 'Y' where mno = :mno")         // 매개변수를 사용할 때에는 : 를 붙여 사용할 수 있음
     void deleteMovie(long mno);
 
-    @Query ("update Movie set title = '?' where mno = :mno")
+    @Modifying
+    @Transactional
+    @Query ("update Movie set title = :title where mno = :mno")
     void modifyMovie(long mno);
 
 }
