@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public interface MovieService {
+// service 계층에서는 DTO를 이용해 필요한 내용을 전달받고 반환하도록 처리한다
 
     // 등록
     Long register(MovieDTO movieDTO);

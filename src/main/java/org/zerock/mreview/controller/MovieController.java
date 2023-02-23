@@ -29,7 +29,8 @@ public class MovieController {
         log.info("movieDTO: " + movieDTO);
         Long mno = movieService.register(movieDTO);
 
-        // addFlashAttribute는 POST 방식, 일회성 데이터라 새로고침하면 값이 사라짐
+        // addFlashAttribute() : 단 한번만 데이터를 전달하는 용도로 사용한다
+        // redirectAttributes : 한 번만 화면에서 "msg"라는 이름의 변수를 사용할 수 있도록 처리
         redirectAttributes.addFlashAttribute("msg", mno);
 
         return "redirect:/movie/list";
@@ -65,7 +66,7 @@ public class MovieController {
 
     // 게시물 삭제 처리
     @PostMapping("/remove")
-    public String remove(MovieDTO dto, RedirectAttributes redirectAttributes){
+    public String remove(MovieDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes){
 
         // POST 방식으로 mno 값을 전달하고 삭제 후,
         movieService.deletePost(dto.getMno());
