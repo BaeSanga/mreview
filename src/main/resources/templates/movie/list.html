@@ -66,28 +66,6 @@
                 <a class="page-link" th:href="@{/movie/list(page= ${result.end + 1} )}">next</a>
             </li>
         </ul>
-
-<!--            // $(".removeBtn").on("click", function () {-->
-<!--            //     if (confirm("게시물을 삭제하시겠습니까?")) {-->
-<!--            //         var mno = $(this).data('id');-->
-<!--            //         console.log(mno);-->
-<!--            //         $.ajax({-->
-<!--            //             url: "/movie/delete/" + mno,-->
-<!--            //             type: "post",-->
-<!--            //             success: function (result) {-->
-<!--            //                 console.log("result: " + result);-->
-<!--            //             }-->
-<!--            //         }).done(function () {         // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.-->
-<!--            //             alert('게시글이 삭제되었습니다.');-->
-<!--            //             location.reload(true);-->
-<!--            //-->
-<!--            //         }).fail(function (error) {       // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.-->
-<!--            //             alert(JSON.stringify(error));-->
-<!--            //         })-->
-<!--            //     } else {-->
-<!--            //     }-->
-<!--            // });-->
-
     </th:block>
 
 </th:block>
